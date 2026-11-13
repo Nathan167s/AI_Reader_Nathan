@@ -1,0 +1,1298 @@
+/* ==========================================================================
+   概念树 — 列表与编辑器
+   所有选择器均以 .concepts-page / .concept-editor 为前缀
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   概念树列表
+   -------------------------------------------------------------------------- */
+
+.concepts-page .concepts-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 26px;
+  margin-bottom: 22px;
+}
+
+.concepts-page .concepts-head h1 {
+  margin-top: 5px;
+  font-family: var(--serif);
+  font-size: clamp(30px, 3vw, 42px);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.concepts-page .concepts-head h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.concepts-page .concepts-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.concepts-page .concepts-stats > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(255, 253, 248, 0.42);
+}
+
+.concepts-page .concepts-stats > span > svg {
+  color: var(--sage);
+}
+
+.concepts-page .concepts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 19px;
+}
+
+.concepts-page .concept-card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 17px;
+  background: rgba(255, 252, 245, 0.62);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  animation: fadeUp 0.4s ease both;
+}
+
+.concepts-page .concept-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: linear-gradient(180deg, var(--sage), rgba(179, 138, 78, 0.65));
+  opacity: 0.45;
+}
+
+.concepts-page .concept-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 38px -14px rgba(44, 38, 27, 0.18);
+}
+
+.concepts-page .concept-card-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 17px 19px 15px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.concepts-page .concept-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.concepts-page .concept-card-mark {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 8px;
+  background: rgba(95, 117, 100, 0.1);
+  color: var(--sage);
+}
+
+.concepts-page .concept-card-books {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  color: var(--muted);
+  font-size: 8.5px;
+  letter-spacing: 0.04em;
+}
+
+.concepts-page .concept-card-arrow {
+  margin-left: auto;
+  color: var(--muted);
+  opacity: 0.4;
+  transform: translateX(-2px);
+  transition: opacity 0.18s ease, transform 0.18s ease, color 0.18s ease;
+}
+
+.concepts-page .concept-card:hover .concept-card-arrow {
+  opacity: 0;
+  transform: translateX(1px);
+}
+
+.concepts-page .concept-card-main h3 {
+  width: 100%;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.42;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.concepts-page .concept-card-desc {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.72;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.concepts-page .concept-card-sources {
+  width: 100%;
+  margin-top: 7px;
+  color: #9a9e95;
+  font-size: 8.5px;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concepts-page .concept-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: #8b9188;
+  font-size: 9px;
+}
+
+.concepts-page .concept-card-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.concepts-page .concept-card-time {
+  margin-left: auto;
+  color: #9da199;
+}
+
+.concepts-page .concept-card-delete {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border: 1px solid rgba(34, 48, 42, 0.1);
+  border-radius: 7px;
+  background: rgba(255, 253, 248, 0.9);
+  color: var(--muted);
+  opacity: 0;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.concepts-page .concept-card:hover .concept-card-delete,
+.concepts-page .concept-card-delete:focus-visible {
+  opacity: 1;
+}
+
+.concepts-page .concept-card-delete:hover {
+  background: #fff5ef;
+  color: var(--danger);
+}
+
+.concepts-page .concept-add-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 206px;
+  border: 1.5px dashed rgba(34, 48, 42, 0.16);
+  border-radius: 17px;
+  background: rgba(255, 253, 247, 0.24);
+  color: var(--muted);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.concepts-page .concept-add-card:hover {
+  border-color: rgba(176, 93, 66, 0.4);
+  background: rgba(255, 251, 242, 0.55);
+  color: var(--accent);
+}
+
+.concepts-page .concept-add-card > span {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  margin-bottom: 12px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.concepts-page .concept-add-card strong {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.concepts-page .concept-add-card small {
+  margin-top: 3px;
+  font-size: 9px;
+}
+
+.concepts-page .concepts-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 40px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 22px;
+  background: rgba(255, 253, 247, 0.3);
+  text-align: center;
+}
+
+.concepts-page .concept-empty-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 94px;
+  height: 94px;
+  margin-bottom: 22px;
+  border-radius: 50%;
+  color: var(--accent);
+  background: rgba(176, 93, 66, 0.05);
+}
+
+.concepts-page .concept-empty-orbit {
+  position: absolute;
+  border: 1px solid rgba(176, 93, 66, 0.14);
+  border-radius: 50%;
+}
+
+.concepts-page .concept-empty-orbit.one {
+  inset: -10px;
+}
+
+.concepts-page .concept-empty-orbit.two {
+  inset: -25px;
+  opacity: 0.55;
+}
+
+.concepts-page .concepts-empty h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.concepts-page .concepts-empty p {
+  max-width: 500px;
+  margin: 8px 0 20px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* 新建弹窗：多书选择 */
+
+.concepts-page .concept-create .field {
+  margin-bottom: 16px;
+}
+
+.concepts-page .concept-create .mode-card.is-active:hover:not(:disabled) {
+  border-color: rgba(176, 93, 66, 0.5);
+  background: #fffaf1;
+  box-shadow: 0 0 0 3px rgba(176, 93, 66, 0.05);
+}
+
+.concepts-page .concept-book-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 238px;
+  padding: 2px;
+  overflow: auto;
+}
+
+.concepts-page .concept-book-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: rgba(255, 253, 248, 0.5);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.concepts-page .concept-book-option:hover {
+  border-color: rgba(176, 93, 66, 0.28);
+  background: #fffdf8;
+}
+
+.concepts-page .concept-book-option.is-checked {
+  border-color: rgba(176, 93, 66, 0.46);
+  background: #fffaf1;
+  box-shadow: 0 0 0 3px rgba(176, 93, 66, 0.045);
+}
+
+.concepts-page .concept-book-option.is-disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.concepts-page .concept-book-option:has(input:focus-visible) {
+  outline: 2px solid rgba(176, 93, 66, 0.55);
+  outline-offset: 2px;
+}
+
+.concepts-page .concept-book-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.concepts-page .concept-book-tone {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 36px;
+  border-radius: 4px 7px 7px 4px;
+  background: linear-gradient(150deg, var(--tone-bg), color-mix(in srgb, var(--tone-bg) 74%, #101713));
+  color: var(--tone-ink);
+  font-family: var(--serif);
+  font-size: 12px;
+  box-shadow:
+    inset 2px 0 0 rgba(0, 0, 0, 0.16),
+    0 3px 8px rgba(34, 48, 42, 0.13);
+}
+
+.concepts-page .concept-book-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.concepts-page .concept-book-copy strong {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concepts-page .concept-book-copy small {
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concepts-page .concept-book-tick {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  color: transparent;
+  background: transparent;
+  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.concepts-page .concept-book-option.is-checked .concept-book-tick {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fffaf1;
+}
+
+.concepts-page .concept-picker-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.concepts-page .concept-picker-tools > span {
+  margin-right: auto;
+}
+
+.concepts-page .concept-picker-tools .text-btn {
+  font-size: 9.5px;
+}
+
+/* --------------------------------------------------------------------------
+   概念树编辑器
+   -------------------------------------------------------------------------- */
+
+.concept-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 520px at 90% 0%, rgba(255, 255, 255, 0.5), transparent 68%),
+    radial-gradient(700px 500px at 0% 100%, rgba(177, 151, 112, 0.08), transparent 72%),
+    var(--paper);
+  color: var(--ink);
+}
+
+.concept-editor .concept-topbar {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex: 0 0 64px;
+  height: 64px;
+  padding: 0 18px 0 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(251, 248, 241, 0.88);
+  backdrop-filter: blur(14px);
+}
+
+.concept-editor .concept-top-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+  min-width: 0;
+}
+
+.concept-editor .concept-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.concept-editor .concept-title-input {
+  width: min(470px, 100%);
+  padding: 1px 3px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: #26342d;
+  outline: none;
+  transition: border-color 0.16s ease, background 0.16s ease;
+}
+
+.concept-editor .concept-title-input:hover {
+  border-color: rgba(34, 48, 42, 0.1);
+}
+
+.concept-editor .concept-title-input:focus {
+  border-color: rgba(34, 48, 42, 0.2);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.concept-editor .concept-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 3px;
+  color: #8f948b;
+  font-size: 8.5px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.concept-editor .concept-subtitle > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.concept-editor .concept-subtitle i {
+  flex: none;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #b7b9b2;
+}
+
+.concept-editor .concept-subtitle-books {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concept-editor .concept-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+.concept-editor .concept-top-divider {
+  width: 1px;
+  height: 17px;
+  margin: 0 4px;
+  background: rgba(34, 48, 42, 0.11);
+}
+
+.concept-editor .concept-body {
+  display: grid;
+  grid-template-columns: 310px minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+/* 左侧概念结构 */
+
+.concept-editor .concept-tree-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  background: rgba(255, 253, 247, 0.46);
+}
+
+.concept-editor .concept-tree-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 19px 17px 11px;
+}
+
+.concept-editor .concept-tree-head h2 {
+  margin-top: 2px;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.concept-editor .concept-tree-total {
+  flex: none;
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  color: var(--muted);
+  font-size: 8.5px;
+}
+
+.concept-editor .concept-tree-scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 1px 8px 16px;
+  overflow: auto;
+}
+
+.concept-editor .concept-tree-children {
+  position: relative;
+}
+
+.concept-editor .concept-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 33px;
+  padding: 3px 4px 3px calc(4px + var(--depth, 0) * 15px);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.concept-editor .concept-tree-row:hover {
+  background: rgba(34, 48, 42, 0.045);
+}
+
+.concept-editor .concept-tree-row.is-selected {
+  border-color: rgba(176, 93, 66, 0.22);
+  background: #fffaf1;
+}
+
+.concept-editor .concept-tree-toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.concept-editor .concept-tree-toggle:hover {
+  background: rgba(34, 48, 42, 0.06);
+  color: var(--ink);
+}
+
+.concept-editor .concept-tree-chevron {
+  transition: transform 0.16s ease;
+}
+
+.concept-editor .concept-tree-chevron.is-open {
+  transform: rotate(90deg);
+}
+
+.concept-editor .concept-tree-spacer {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+.concept-editor .concept-tree-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding: 2px 1px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  text-align: left;
+}
+
+.concept-editor .concept-tree-name {
+  font-size: 11.5px;
+  line-height: 1.45;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concept-editor .concept-tree-row.is-root .concept-tree-name {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.concept-editor .concept-tree-row.is-selected .concept-tree-name {
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.concept-editor .concept-tree-quote-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding: 1px 4px;
+  border-radius: 99px;
+  background: rgba(179, 138, 78, 0.1);
+  color: #927344;
+  font-size: 7.5px;
+}
+
+.concept-editor .concept-tree-actions {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.concept-editor .concept-tree-row:hover .concept-tree-actions,
+.concept-editor .concept-tree-row.is-selected .concept-tree-actions {
+  opacity: 1;
+}
+
+.concept-editor .concept-tree-actions button {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.concept-editor .concept-tree-actions button:hover:not(:disabled) {
+  background: rgba(34, 48, 42, 0.07);
+  color: var(--accent);
+}
+
+.concept-editor .concept-tree-actions button:last-child:hover:not(:disabled) {
+  color: var(--danger);
+}
+
+.concept-editor .concept-tree-actions button:disabled {
+  opacity: 0.25;
+}
+
+.concept-editor .concept-tree-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 13px calc(11px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  color: #9a9e95;
+  font-size: 8.5px;
+}
+
+.concept-editor .concept-tree-foot .btn {
+  margin-left: auto;
+  flex: none;
+}
+
+/* 右侧节点详情 */
+
+.concept-editor .concept-detail {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.concept-editor .concept-detail-inner {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding: 30px clamp(22px, 4vw, 54px) 64px;
+}
+
+.concept-editor .concept-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.concept-editor .concept-detail-heading {
+  min-width: 0;
+}
+
+.concept-editor .concept-detail-head h2 {
+  margin-top: 3px;
+  font-family: var(--serif);
+  font-size: clamp(23px, 2.2vw, 30px);
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.concept-editor .concept-detail-path {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1px;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.concept-editor .concept-detail-path > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  min-width: 0;
+}
+
+.concept-editor .concept-path-btn {
+  padding: 1px 2px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #9a9e95;
+  font-size: 9px;
+  line-height: 1.4;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concept-editor .concept-path-btn:hover {
+  background: rgba(34, 48, 42, 0.05);
+  color: var(--accent);
+}
+
+.concept-editor .concept-path-btn.is-current {
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.concept-editor .concept-detail-summary {
+  max-width: 660px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.concept-editor .concept-detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+}
+
+.concept-editor .concept-detail-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0 14px;
+}
+
+.concept-editor .concept-detail .field {
+  margin-bottom: 16px;
+}
+
+.concept-editor .concept-detail .field label {
+  font-size: 11.5px;
+}
+
+.concept-editor .concept-detail .field label > span {
+  display: inline-block;
+  max-width: 65%;
+  margin-left: auto;
+  font-size: 9px;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.concept-editor .concept-detail .field input,
+.concept-editor .concept-detail .field textarea {
+  font-size: 12.5px;
+}
+
+.concept-editor .concept-detail .field input:disabled {
+  background: rgba(236, 228, 214, 0.4);
+  color: #9a9e95;
+  cursor: not-allowed;
+}
+
+.concept-editor .concept-definition-field {
+  margin-top: 2px;
+}
+
+.concept-editor .concept-detail .field textarea {
+  min-height: 112px;
+}
+
+/* 原书引文 */
+
+.concept-editor .concept-quotes {
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.concept-editor .concept-quotes-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.concept-editor .concept-quotes-head h3 {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.concept-editor .concept-quotes-head > span {
+  padding: 2px 6px;
+  border-radius: 99px;
+  background: rgba(95, 117, 100, 0.08);
+  color: var(--sage);
+  font-size: 8.5px;
+}
+
+.concept-editor .concept-quotes-head em {
+  margin-left: auto;
+  color: #9a9e95;
+  font-size: 8.5px;
+  font-style: normal;
+}
+
+.concept-editor .concept-quote-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.concept-editor .concept-quote {
+  position: relative;
+  margin: 0;
+  padding: 14px 16px 12px 19px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 253, 248, 0.62);
+}
+
+.concept-editor .concept-quote::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 13px;
+  bottom: 13px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: rgba(176, 93, 66, 0.32);
+}
+
+.concept-editor .concept-quote-text {
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-size: 12.5px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.concept-editor .concept-quote-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 10px;
+  margin-top: 9px;
+  color: #8f948b;
+  font-size: 8.5px;
+}
+
+.concept-editor .concept-quote-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.concept-editor .concept-quote-book {
+  color: var(--sage);
+  font-weight: 600;
+}
+
+.concept-editor .concept-quote-meta .text-link {
+  margin-left: auto;
+  font-size: 9px;
+}
+
+.concept-editor .concept-quotes-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 26px 18px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+.concept-editor .concept-quotes-empty svg {
+  color: #b0a58f;
+  margin-bottom: 2px;
+}
+
+.concept-editor .concept-quotes-empty small {
+  color: #a3a79f;
+  font-size: 8.5px;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   响应式
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .concepts-page .concepts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  }
+
+  .concept-editor .concept-body {
+    grid-template-columns: 270px minmax(0, 1fr);
+  }
+
+  .concept-editor .concept-detail-inner {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media (max-width: 900px) {
+  .concepts-page .concepts-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .concepts-page .concepts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .concepts-page .concept-add-card {
+    min-height: 170px;
+  }
+
+  .concept-editor .concept-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 42%) minmax(0, 1fr);
+  }
+
+  .concept-editor .concept-tree-panel {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .concept-editor .concept-tree-head {
+    padding-top: 13px;
+    padding-bottom: 7px;
+  }
+
+  .concept-editor .concept-tree-scroll {
+    padding-bottom: 8px;
+  }
+
+  .concept-editor .concept-tree-actions {
+    opacity: 1;
+  }
+
+  .concept-editor .concept-tree-foot {
+    padding-bottom: 9px;
+  }
+
+  .concept-editor .concept-detail-inner {
+    padding-top: 22px;
+  }
+}
+
+@media (max-width: 560px) {
+  .concepts-page .concepts-head h1 {
+    font-size: 29px;
+  }
+
+  .concepts-page .concepts-stats {
+    gap: 6px;
+    font-size: 9px;
+  }
+
+  .concepts-page .concepts-stats > span {
+    padding: 4px 7px;
+  }
+
+  .concepts-page .concept-card-main {
+    padding: 15px 16px 14px;
+  }
+
+  .concepts-page .concept-card-main h3 {
+    font-size: 17px;
+  }
+
+  .concepts-page .concept-card-delete {
+    opacity: 1;
+  }
+
+  .concepts-page .concept-card-arrow {
+    display: none;
+  }
+
+  .concepts-page .concepts-empty {
+    min-height: 54vh;
+    padding: 28px 20px;
+  }
+
+  .concepts-page .concepts-empty h2 {
+    font-size: 22px;
+  }
+
+  .concepts-page .concepts-empty p {
+    font-size: 11px;
+  }
+
+  .concepts-page .concept-book-picker {
+    grid-template-columns: 1fr;
+    max-height: 208px;
+  }
+
+  .concepts-page .concept-create .mode-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .concepts-page .concept-picker-tools {
+    flex-wrap: wrap;
+  }
+
+  .concept-editor .concept-topbar {
+    flex-basis: 58px;
+    height: 58px;
+    padding: 0 8px;
+    gap: 6px;
+  }
+
+  .concept-editor .concept-title-wrap {
+    gap: 0;
+  }
+
+  .concept-editor .concept-title-input {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .concept-editor .concept-subtitle {
+    display: none;
+  }
+
+  .concept-editor .concept-top-actions {
+    gap: 1px;
+  }
+
+  .concept-editor .concept-top-actions .save-state,
+  .concept-editor .concept-top-divider {
+    display: none;
+  }
+
+  .concept-editor .concept-top-actions .btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 9px;
+  }
+
+  .concept-editor .concept-top-actions .btn span {
+    display: none;
+  }
+
+  .concept-editor .concept-body {
+    grid-template-rows: minmax(0, 40%) minmax(0, 1fr);
+  }
+
+  .concept-editor .concept-tree-head {
+    padding: 11px 13px 6px;
+  }
+
+  .concept-editor .concept-tree-head h2 {
+    font-size: 16px;
+  }
+
+  .concept-editor .concept-tree-scroll {
+    padding: 0 5px 6px;
+  }
+
+  .concept-editor .concept-tree-row {
+    padding-left: calc(2px + var(--depth, 0) * 12px);
+  }
+
+  .concept-editor .concept-tree-foot {
+    padding: 7px 11px 8px;
+  }
+
+  .concept-editor .concept-tree-foot > span {
+    display: none;
+  }
+
+  .concept-editor .concept-tree-foot .btn {
+    margin-left: 0;
+  }
+
+  .concept-editor .concept-detail-inner {
+    padding: 18px 15px 48px;
+  }
+
+  .concept-editor .concept-detail-head {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .concept-editor .concept-detail-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .concept-editor .concept-detail-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .concept-editor .concept-detail .field label > span {
+    max-width: 58%;
+  }
+
+  .concept-editor .concept-quotes {
+    margin-top: 8px;
+    padding-top: 16px;
+  }
+
+  .concept-editor .concept-quote {
+    padding: 12px 12px 10px 15px;
+  }
+
+  .concept-editor .concept-quote-text {
+    font-size: 12px;
+  }
+
+  .concept-editor .concept-quote-meta .text-link {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .concept-editor .concept-top-left {
+    gap: 5px;
+  }
+
+  .concept-editor .concept-title-input {
+    font-size: 12.5px;
+  }
+
+  .concept-editor .concept-detail-head h2 {
+    font-size: 22px;
+  }
+
+  .concepts-page .concept-card-meta {
+    gap: 7px;
+  }
+
+  .concept-editor .concept-quotes-head em {
+    display: none;
+  }
+}

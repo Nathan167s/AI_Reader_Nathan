@@ -1,0 +1,277 @@
+/* Reading maps dock panel — scoped overrides for the reader side dock.
+   Loaded from ReaderMapPanel.jsx after styles.css, so these sizes win
+   without touching the global stylesheet. Keep selectors scoped to the panel. */
+
+.reader-map-panel {
+  min-width: 0;
+  font-size: 11px;
+}
+
+/* --- collapsible header --- */
+
+.map-panel-top {
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px 9px;
+}
+
+.map-panel-top.is-collapsed {
+  align-items: center;
+  padding: 7px 12px;
+}
+
+.map-panel-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.map-panel-title .eyebrow {
+  color: var(--reader-accent);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+.map-panel-title h3 {
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.map-panel-title > span {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 1.45;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  margin-left: auto;
+}
+
+.map-panel-top.is-collapsed .map-panel-actions {
+  flex: 1;
+  margin-left: 0;
+  justify-content: space-between;
+}
+
+.map-title-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: none;
+  min-width: 27px;
+  height: 27px;
+  padding: 0 5px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--reader-muted);
+  font-family: var(--sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+
+.map-title-toggle:hover {
+  border-color: var(--reader-line);
+  background: var(--reader-surface);
+  color: var(--reader-accent);
+}
+
+.map-title-toggle svg {
+  flex: none;
+}
+
+.map-title-toggle > span {
+  min-width: 0;
+  max-width: 128px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.map-title-toggle.is-collapsed {
+  padding: 0 8px;
+  border-color: var(--reader-line);
+  background: var(--reader-surface);
+  color: var(--reader-ink);
+}
+
+.map-title-toggle.is-collapsed:hover {
+  border-color: color-mix(in srgb, var(--reader-accent) 40%, transparent);
+  color: var(--reader-accent);
+}
+
+@media (max-width: 360px) {
+  .map-title-toggle > span {
+    display: none;
+  }
+}
+
+/* --- new map button / create panel --- */
+
+.map-new-btn {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.map-create-head {
+  font-size: 12px;
+}
+
+.map-scope-options button {
+  padding: 8px 3px;
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+
+.map-scope-note {
+  font-size: 10.5px;
+}
+
+.map-concept-input,
+.map-title-input {
+  height: 30px;
+  font-size: 11px;
+}
+
+.map-create-mode button {
+  height: 28px;
+  font-size: 10.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.map-generate-btn {
+  height: 31px;
+  font-size: 11px;
+}
+
+/* --- map list --- */
+
+.map-selector-current {
+  gap: 8px;
+  padding: 7px 9px;
+}
+
+.map-selector-current strong {
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.map-selector-current small {
+  margin-top: 1px;
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-selector-menu {
+  top: calc(100% + 4px);
+  max-height: 240px;
+}
+
+.map-selector-menu button {
+  padding: 7px 8px;
+}
+
+.map-selector-menu button > span {
+  flex: 1;
+  min-width: 0;
+}
+
+.map-selector-menu strong {
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.map-selector-menu small {
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- preview --- */
+
+.map-preview-scope {
+  padding: 1px 6px;
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+
+.map-preview-head h4 {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.map-expand-btn {
+  padding: 4px 7px;
+  font-size: 10.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.map-preview-foot {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.map-panel-loading,
+.map-panel-empty p {
+  font-size: 11px;
+}
+
+/* --- AI revise card --- */
+
+.map-revise-head {
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.map-revise-head em {
+  font-size: 9.5px;
+}
+
+.map-revise-card textarea {
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.map-revise-quick button {
+  padding: 3px 6px;
+  font-size: 10.5px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.map-revise-btn {
+  height: 30px;
+  font-size: 11px;
+}
+
+.reader-map-panel .btn-sm {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.map-panel-error,
+.map-panel-error button {
+  font-size: 10.5px;
+}

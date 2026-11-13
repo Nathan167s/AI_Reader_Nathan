@@ -1,0 +1,229 @@
+/* ==========================================================================
+   PagedReader — 按字体大小 / 可视高度自动分页的翻页阅读模式
+   只作用于 .paged-reader 内部，颜色全部继承阅读器主题变量。
+   ========================================================================== */
+
+.paged-reader {
+  --paged-gutter: 28px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  color: var(--reader-ink, #26322c);
+}
+
+/*
+ * 版心：优先服从阅读器的“版心”设置（--reader-column），
+ * 窄屏时自动退化为整屏宽度。页宽 = 视口内容宽度，所以改变版心
+ * 会改变分栏宽度并触发重新分页。
+ */
+.paged-reader-viewport {
+  position: relative;
+  flex: 1;
+  align-self: center;
+  width: min(100%, calc(var(--reader-column, 720px) + var(--paged-gutter) * 2));
+  min-height: 0;
+  overflow: hidden;
+}
+
+/*
+ * 分栏容器：高度由视口决定，column-width 由 JS 精确设为“可视宽度”。
+ * 内容超过一栏高度后，浏览器会在右侧继续生成新栏，切页平移该容器即可。
+ */
+.paged-reader-track {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 32px var(--paged-gutter) 22px;
+  column-gap: 56px;
+  column-fill: auto;
+  transform: translateX(0);
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* 只有用户翻页时才做横向过渡；重排 / 恢复进度直接落位。 */
+.paged-reader-track.is-turning {
+  transition: transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.paged-reader-article {
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* 文章头部沿用全局 .article-head / .article-body 的排版，
+   只补充分栏相关的断页规则。 */
+.paged-reader-head {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+
+.paged-reader-body > p {
+  orphans: 2;
+  widows: 2;
+}
+
+.paged-reader-track .article-body img,
+.paged-reader-track .article-body figure,
+.paged-reader-track .article-body blockquote,
+.paged-reader-track .article-body pre,
+.paged-reader-track .article-body table,
+.paged-reader-track .article-body tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+
+.paged-reader-track .article-body h1,
+.paged-reader-track .article-body h2,
+.paged-reader-track .article-body h3,
+.paged-reader-track .article-body h4 {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+/* ---------------- 底部固定控制条 ---------------- */
+
+.paged-reader-bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-sizing: border-box;
+  height: calc(54px + env(safe-area-inset-bottom, 0px));
+  padding: 0 18px env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid var(--reader-line, rgba(38, 50, 44, 0.12));
+  background: color-mix(in srgb, var(--reader-bg, #f4ecdd) 92%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.paged-reader-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 34px;
+  padding: 0 11px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--reader-muted, #7f8074);
+  font-family: var(--sans, "PingFang SC", "Microsoft YaHei", sans-serif);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+}
+
+.paged-reader-btn:hover:not(:disabled) {
+  background: var(--reader-soft, rgba(38, 50, 44, 0.055));
+  color: var(--reader-ink, #26322c);
+}
+
+.paged-reader-btn:active:not(:disabled) {
+  background: color-mix(in srgb, var(--reader-accent, #a9553b) 9%, transparent);
+  color: var(--reader-accent, #a9553b);
+}
+
+.paged-reader-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--reader-accent, #a9553b) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.paged-reader-btn:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.paged-reader-btn svg {
+  flex: none;
+}
+
+.paged-reader-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  color: var(--reader-muted, #7f8074);
+  font-family: var(--serif, Georgia, "Songti SC", serif);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  user-select: none;
+}
+
+.paged-reader-count b {
+  color: var(--reader-ink, #26322c);
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.paged-reader-count i {
+  font-style: normal;
+  opacity: 0.45;
+}
+
+.paged-reader-count span {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------- 窄屏 ---------------- */
+
+@media (max-width: 600px) {
+  .paged-reader {
+    --paged-gutter: 18px;
+  }
+
+  .paged-reader-track {
+    padding: 22px var(--paged-gutter) 16px;
+    column-gap: 34px;
+  }
+
+  .paged-reader-bar {
+    height: calc(50px + env(safe-area-inset-bottom, 0px));
+    padding: 0 12px env(safe-area-inset-bottom, 0px);
+    gap: 6px;
+  }
+
+  .paged-reader-btn {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 10.5px;
+  }
+
+  .paged-reader-count {
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  .paged-reader-count b {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .paged-reader-btn {
+    width: 36px;
+    padding: 0;
+  }
+
+  .paged-reader-btn span {
+    /* 极窄屏只保留箭头，靠 title / aria-label 说明含义 */
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paged-reader-track.is-turning {
+    transition: none;
+  }
+}

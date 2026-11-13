@@ -1,0 +1,2033 @@
+/* ==========================================================================
+   页间 PageNest — 深色学术极简主题
+   仅颜色覆盖，不改布局与功能。最后于 main.jsx 导入。
+   近黑中性底 · 细边框 · 低饱和 · 暖金 / 冷青少量强调
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 变量 / 基座
+   -------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #0b0e0d;
+  --bg-deep: #080b0a;
+  --paper: #121614;
+  --paper-2: #171c19;
+  --ink: #e8e4da;
+  --ink-soft: #c3c8bf;
+  --muted: #8d968e;
+  --line: rgba(232, 228, 216, 0.1);
+  --line-strong: rgba(232, 228, 216, 0.18);
+  --accent: #c9a46b;
+  --accent-deep: #ddb982;
+  --sage: #8fb3a3;
+  --forest: #1e342b;
+  --gold: #c9a46b;
+  --danger: #e07a70;
+  --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.48);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.34);
+}
+
+html {
+  background: var(--bg-deep);
+}
+
+html,
+body,
+#root {
+  color: var(--ink);
+}
+
+body {
+  background:
+    radial-gradient(1100px 700px at 8% -12%, rgba(143, 179, 163, 0.05), transparent 62%),
+    radial-gradient(900px 620px at 102% 108%, rgba(201, 164, 107, 0.045), transparent 60%),
+    var(--bg);
+}
+
+body::before {
+  opacity: 0.055;
+  mix-blend-mode: screen;
+  filter: invert(1);
+}
+
+::selection {
+  background: rgba(201, 164, 107, 0.3);
+  color: var(--ink);
+}
+
+* {
+  scrollbar-color: rgba(232, 228, 216, 0.16) transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 228, 216, 0.14);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 228, 216, 0.24);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(201, 164, 107, 0.62);
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--accent);
+}
+
+input,
+textarea,
+select {
+  color-scheme: dark;
+  caret-color: var(--accent);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.78;
+}
+
+option {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+hr {
+  border-color: var(--line);
+}
+
+mark {
+  background: rgba(201, 164, 107, 0.22);
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   2. 通用按钮 / 输入 / 卡片 / 标签
+   -------------------------------------------------------------------------- */
+
+.btn {
+  color: var(--ink);
+}
+
+.btn-primary {
+  border-color: rgba(143, 179, 163, 0.2);
+  background: #1d3229;
+  color: #f0e9da;
+  box-shadow: none;
+}
+
+.btn-primary:hover {
+  background: #274237;
+  border-color: rgba(143, 179, 163, 0.34);
+  box-shadow: none;
+}
+
+.btn-primary:disabled {
+  color: rgba(240, 233, 218, 0.6);
+}
+
+.btn-cream {
+  background: var(--accent);
+  color: #16130d;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-cream:hover {
+  background: var(--accent-deep);
+  color: #16130d;
+}
+
+.btn-ghost {
+  border-color: var(--line);
+  background: rgba(23, 28, 25, 0.72);
+  color: var(--ink-soft);
+}
+
+.btn-ghost:hover {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+.btn-ghost.is-active {
+  border-color: rgba(201, 164, 107, 0.38);
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent-deep);
+}
+
+.btn-danger {
+  background: #8e3f39;
+  color: #f8e9e5;
+}
+
+.btn-danger:hover {
+  background: #a64d45;
+}
+
+.icon-btn {
+  color: var(--ink-soft);
+}
+
+.icon-btn:hover {
+  background: rgba(232, 228, 216, 0.07);
+  color: var(--ink);
+}
+
+.text-link {
+  color: var(--accent);
+}
+
+.text-link:hover {
+  color: var(--accent-deep);
+}
+
+.text-btn {
+  color: var(--ink-soft);
+}
+
+.text-btn:hover {
+  color: var(--accent);
+}
+
+kbd {
+  border-color: var(--line);
+  border-bottom-color: var(--line-strong);
+  background: rgba(232, 228, 216, 0.055);
+  color: var(--muted);
+}
+
+.field label {
+  color: var(--ink-soft);
+}
+
+.field label > span {
+  color: var(--muted);
+}
+
+.field input,
+.field textarea,
+.field select {
+  border-color: var(--line);
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: rgba(201, 164, 107, 0.5);
+  background: #1a201c;
+  box-shadow: 0 0 0 4px rgba(201, 164, 107, 0.07);
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238d968e' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+.field-hint {
+  color: var(--muted);
+}
+
+.form-error {
+  border-color: rgba(224, 122, 112, 0.28);
+  background: rgba(224, 122, 112, 0.08);
+  color: #e9a59d;
+}
+
+.form-warning {
+  border-color: rgba(201, 164, 107, 0.26);
+  background: rgba(201, 164, 107, 0.08);
+  color: #d6b47c;
+}
+
+.segmented {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.04);
+}
+
+.segmented button {
+  color: var(--muted);
+}
+
+.segmented button.is-active {
+  background: #233a30;
+  color: var(--ink);
+}
+
+.progress-track {
+  background: rgba(232, 228, 216, 0.14);
+}
+
+.progress-track span {
+  background: var(--accent);
+}
+
+.progress-track.thin {
+  background: rgba(232, 228, 216, 0.12);
+}
+
+.progress-track.thin span {
+  background: var(--accent);
+}
+
+/* 通用卡片 / 表格 / 代码 */
+.article-body table,
+.markdown table,
+table {
+  color: var(--ink-soft);
+}
+
+.article-body th,
+.article-body td,
+.markdown th,
+.markdown td,
+table th,
+table td {
+  border-color: var(--line);
+}
+
+.article-body th,
+.markdown th,
+table th {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--ink);
+}
+
+.article-body code,
+.markdown code,
+code {
+  color: var(--ink-soft);
+  background: rgba(232, 228, 216, 0.07);
+}
+
+.article-body pre,
+.markdown pre,
+pre {
+  background: var(--paper-2);
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   3. 启动 / 侧边栏
+   -------------------------------------------------------------------------- */
+
+.boot-screen {
+  background:
+    radial-gradient(700px 500px at 50% 38%, rgba(143, 179, 163, 0.07), transparent 68%),
+    var(--bg);
+}
+
+.boot-mark {
+  background: #1d3229;
+  color: #f0e9da;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
+}
+
+.boot-mark.is-error {
+  background: #7c3732;
+}
+
+.sidebar {
+  background:
+    radial-gradient(240px 300px at 50% 8%, rgba(143, 179, 163, 0.08), transparent 70%),
+    linear-gradient(180deg, #101512 0%, #0a0d0c 100%);
+  color: rgba(232, 228, 216, 0.62);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.32);
+}
+
+.sidebar::after {
+  background: linear-gradient(180deg, transparent, rgba(232, 228, 216, 0.09), transparent);
+}
+
+.brand-glyph {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.brand-glyph::after {
+  background: var(--accent);
+}
+
+.brand-word {
+  color: rgba(232, 228, 216, 0.42);
+}
+
+.side-link {
+  color: rgba(232, 228, 216, 0.5);
+}
+
+.side-link:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.side-link.is-active {
+  color: var(--ink);
+  background: rgba(201, 164, 107, 0.09);
+}
+
+.side-link.is-active::before {
+  background: var(--accent);
+}
+
+.side-import {
+  border: 1px solid rgba(201, 164, 107, 0.34);
+  background: rgba(201, 164, 107, 0.12);
+  color: var(--accent-deep);
+  box-shadow: none;
+}
+
+.side-import:hover {
+  background: rgba(201, 164, 107, 0.2);
+  color: #f0dfc2;
+}
+
+.local-badge {
+  color: rgba(232, 228, 216, 0.3);
+}
+
+.local-pulse {
+  background: var(--sage);
+  box-shadow: 0 0 0 3px rgba(143, 179, 163, 0.1);
+}
+
+.ai-spark {
+  color: var(--accent);
+}
+
+/* 移动端底部导航 */
+@media (max-width: 860px) {
+  .sidebar {
+    background: rgba(10, 14, 12, 0.97);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .side-link.is-active {
+    background: rgba(201, 164, 107, 0.1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. 弹窗 / Toast / 菜单
+   -------------------------------------------------------------------------- */
+
+.modal-backdrop {
+  background: rgba(3, 5, 4, 0.64);
+}
+
+.modal {
+  border-color: var(--line-strong);
+  background: var(--paper);
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.56);
+}
+
+.modal-foot {
+  border-top-color: var(--line);
+  background: rgba(232, 228, 216, 0.025);
+}
+
+.modal-text {
+  color: var(--ink-soft);
+}
+
+.toast {
+  border-color: rgba(232, 228, 216, 0.14);
+  background: rgba(23, 32, 27, 0.95);
+  color: var(--ink);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42);
+}
+
+.toast-dot {
+  background: var(--sage);
+}
+
+.toast-success .toast-dot {
+  background: var(--sage);
+}
+
+.toast-error .toast-dot {
+  background: var(--danger);
+}
+
+.toast-info .toast-dot {
+  background: var(--accent);
+}
+
+/* 书架 / 导图 / 右键 / 导出等浮层 */
+.book-menu,
+.context-menu,
+.context-pop,
+.mm-export-menu {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48);
+}
+
+.book-menu button,
+.context-section > button,
+.mm-export-menu button {
+  color: var(--ink-soft);
+}
+
+.book-menu button:hover,
+.context-section > button:hover,
+.mm-export-menu button:hover {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--ink);
+}
+
+.book-menu button.danger {
+  color: var(--danger);
+}
+
+.book-menu button.danger:hover {
+  background: rgba(224, 122, 112, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   5. 书架
+   -------------------------------------------------------------------------- */
+
+.search-box {
+  border-color: var(--line);
+  background: rgba(23, 28, 25, 0.72);
+  color: var(--muted);
+}
+
+.search-box:focus-within {
+  border-color: rgba(201, 164, 107, 0.42);
+  background: var(--paper-2);
+  box-shadow: 0 0 0 4px rgba(201, 164, 107, 0.06);
+}
+
+.search-box input {
+  color: var(--ink);
+}
+
+.search-box input::placeholder {
+  color: var(--muted);
+}
+
+.search-clear {
+  background: rgba(232, 228, 216, 0.08);
+  color: var(--muted);
+}
+
+.continue-card {
+  background:
+    radial-gradient(560px 300px at 100% 0%, rgba(143, 179, 163, 0.12), transparent 62%),
+    linear-gradient(132deg, #1a2822 0%, #121b16 62%, #0d1310 100%);
+  color: var(--ink);
+  box-shadow: 0 26px 50px -24px rgba(0, 0, 0, 0.58);
+}
+
+.continue-card::after {
+  border-color: rgba(232, 228, 216, 0.1);
+}
+
+.continue-ring {
+  border-color: rgba(232, 228, 216, 0.08);
+}
+
+.continue-kicker {
+  color: rgba(232, 228, 216, 0.5);
+}
+
+.continue-excerpt {
+  color: rgba(232, 228, 216, 0.62);
+}
+
+.continue-progress-meta {
+  color: rgba(232, 228, 216, 0.48);
+}
+
+.continue-format {
+  color: rgba(232, 228, 216, 0.4);
+}
+
+.continue-quote {
+  color: rgba(232, 228, 216, 0.3);
+}
+
+.desk-card {
+  border-color: var(--line-strong);
+  background:
+    radial-gradient(300px 200px at 100% 0%, rgba(201, 164, 107, 0.05), transparent 70%),
+    rgba(23, 28, 25, 0.78);
+  box-shadow: var(--shadow-card);
+}
+
+.shelf-head .count {
+  background: rgba(232, 228, 216, 0.07);
+  color: var(--muted);
+}
+
+.filter-tabs {
+  border-color: var(--line);
+  background: rgba(23, 28, 25, 0.6);
+}
+
+.filter-tab {
+  color: var(--muted);
+}
+
+.filter-tab.is-active {
+  background: #202722;
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.book-card-meta {
+  color: var(--muted);
+}
+
+.format-tag {
+  background: rgba(232, 228, 216, 0.07);
+  color: var(--ink-soft);
+}
+
+.format-tag.fmt-pdf {
+  background: rgba(224, 122, 112, 0.12);
+  color: #e9a49c;
+}
+
+.format-tag.fmt-docx,
+.format-tag.fmt-doc {
+  background: rgba(143, 176, 208, 0.12);
+  color: #a9c4df;
+}
+
+.format-tag.fmt-web,
+.format-tag.fmt-html {
+  background: rgba(143, 179, 163, 0.12);
+  color: #a7c9b9;
+}
+
+.format-tag.fmt-epub {
+  background: rgba(183, 154, 199, 0.12);
+  color: #c3abd1;
+}
+
+.book-card-progress {
+  color: var(--muted);
+}
+
+.mini-track {
+  background: rgba(232, 228, 216, 0.1);
+}
+
+.book-menu-btn {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(8, 12, 10, 0.55);
+  color: rgba(232, 228, 216, 0.72);
+}
+
+.book-menu-btn:hover {
+  background: rgba(8, 12, 10, 0.78);
+}
+
+.add-book-tile {
+  border-color: rgba(232, 228, 216, 0.16);
+  background: rgba(232, 228, 216, 0.025);
+  color: var(--muted);
+}
+
+.add-book-tile:hover {
+  border-color: rgba(201, 164, 107, 0.4);
+  background: rgba(201, 164, 107, 0.055);
+  color: var(--accent);
+}
+
+.empty-shelf {
+  background: rgba(232, 228, 216, 0.025);
+}
+
+.empty-glyph {
+  border-color: var(--line-strong);
+  color: var(--accent);
+}
+
+.result-book {
+  background: rgba(23, 28, 25, 0.6);
+}
+
+.result-book:hover {
+  background: var(--paper-2);
+}
+
+.content-hit {
+  background: rgba(23, 28, 25, 0.55);
+}
+
+.content-hit:hover {
+  background: var(--paper-2);
+}
+
+.format-dot.fmt-pdf {
+  background: var(--danger);
+}
+
+.format-dot.fmt-docx,
+.format-dot.fmt-doc {
+  background: #8fb0d0;
+}
+
+.format-dot.fmt-web,
+.format-dot.fmt-html {
+  background: var(--sage);
+}
+
+.format-dot.fmt-epub {
+  background: #b79ac7;
+}
+
+/* 概念树首页板块 */
+.concept-home {
+  border-color: var(--line-strong);
+  background:
+    radial-gradient(500px 180px at 100% 0%, rgba(143, 179, 163, 0.06), transparent 70%),
+    rgba(23, 28, 25, 0.72);
+  box-shadow: var(--shadow-card);
+}
+
+.concept-home-card {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.concept-home-card:hover {
+  border-color: var(--line-strong);
+  background: rgba(232, 228, 216, 0.065);
+}
+
+.concept-home-icon,
+.concept-home-empty > span {
+  background: rgba(143, 179, 163, 0.1);
+  color: var(--sage);
+}
+
+.concept-home-empty {
+  background: rgba(232, 228, 216, 0.03);
+}
+
+.concept-home-add:hover,
+.concept-home-empty em {
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   6. 导入弹窗
+   -------------------------------------------------------------------------- */
+
+.import-tabs {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.04);
+}
+
+.import-tab {
+  color: var(--muted);
+}
+
+.import-tab.is-active {
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dropzone {
+  border-color: rgba(232, 228, 216, 0.16);
+  background:
+    radial-gradient(340px 180px at 50% 0%, rgba(143, 179, 163, 0.06), transparent 70%),
+    rgba(232, 228, 216, 0.025);
+}
+
+.dropzone:hover,
+.dropzone.is-dragging {
+  border-color: rgba(201, 164, 107, 0.5);
+  background: rgba(201, 164, 107, 0.055);
+}
+
+.dropzone-art {
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent);
+}
+
+.drop-limit {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--muted);
+}
+
+.queue-item {
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.queue-icon {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--ink-soft);
+}
+
+.queue-wait {
+  background: rgba(232, 228, 216, 0.18);
+}
+
+.import-note {
+  border-color: rgba(143, 179, 163, 0.2);
+  background: rgba(143, 179, 163, 0.06);
+  color: var(--sage);
+}
+
+.import-error {
+  border-color: rgba(224, 122, 112, 0.24);
+  background: rgba(224, 122, 112, 0.06);
+  color: var(--danger);
+}
+
+.import-error span {
+  color: #d9a49c;
+}
+
+.import-error .text-link {
+  color: var(--danger);
+}
+
+.import-foot {
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   7. 阅读器
+   -------------------------------------------------------------------------- */
+
+.reader-page {
+  --reader-ink-soft: var(--ink-soft);
+  --reader-bg: #121614;
+  --reader-surface: #181d1a;
+  --reader-panel: #151a17;
+  --reader-ink: #e8e4da;
+  --reader-muted: #8f988f;
+  --reader-line: rgba(232, 228, 216, 0.11);
+  --reader-accent: #c9a46b;
+  --reader-quote: #1a201c;
+  --reader-soft: rgba(232, 228, 216, 0.055);
+  color: var(--reader-ink);
+  background: var(--reader-bg);
+}
+
+.reader-theme-white {
+  --reader-bg: #0f1416;
+  --reader-surface: #141b1d;
+  --reader-panel: #111719;
+  --reader-ink: #e2eae7;
+  --reader-muted: #889a96;
+  --reader-line: rgba(226, 234, 231, 0.11);
+  --reader-accent: #c9a46b;
+  --reader-quote: #172023;
+  --reader-soft: rgba(226, 234, 231, 0.055);
+}
+
+.reader-theme-sepia {
+  --reader-bg: #17130f;
+  --reader-surface: #1d1812;
+  --reader-panel: #19140f;
+  --reader-ink: #ebdcc4;
+  --reader-muted: #a29380;
+  --reader-line: rgba(235, 220, 196, 0.12);
+  --reader-accent: #d6b076;
+  --reader-quote: #211a13;
+  --reader-soft: rgba(235, 220, 196, 0.06);
+}
+
+.reader-theme-dark {
+  --reader-bg: #0b100e;
+  --reader-surface: #111713;
+  --reader-panel: #0e1411;
+  --reader-ink: #dce8e0;
+  --reader-muted: #83968c;
+  --reader-line: rgba(220, 232, 224, 0.1);
+  --reader-accent: #c9a46b;
+  --reader-quote: #141b17;
+  --reader-soft: rgba(220, 232, 224, 0.05);
+}
+
+.reader-topbar {
+  border-bottom-color: var(--reader-line);
+  background: color-mix(in srgb, var(--reader-bg) 90%, transparent);
+}
+
+.reader-progress-line span {
+  background: var(--reader-accent);
+}
+
+.toc-book {
+  border-color: var(--reader-line);
+  background: var(--reader-surface);
+}
+
+.toc-book-mark {
+  background: #233029;
+  color: var(--reader-ink);
+  box-shadow: 2px 2px 0 var(--reader-accent);
+}
+
+.appearance-pop {
+  border-color: var(--reader-line);
+  background: var(--reader-surface);
+  color: var(--reader-ink);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
+}
+
+.appearance-row .segmented button.is-active {
+  background: var(--reader-accent);
+  color: #16130d;
+}
+
+.theme-swatches > .theme-swatch:nth-child(1) {
+  --swatch-bg: #141816 !important;
+  --swatch-ink: #e8e4da !important;
+}
+
+.theme-swatches > .theme-swatch:nth-child(2) {
+  --swatch-bg: #101516 !important;
+  --swatch-ink: #e2eae7 !important;
+}
+
+.theme-swatches > .theme-swatch:nth-child(3) {
+  --swatch-bg: #19130e !important;
+  --swatch-ink: #ebdcc4 !important;
+}
+
+.theme-swatches > .theme-swatch:nth-child(4) {
+  --swatch-bg: #0b1210 !important;
+  --swatch-ink: #dce8e0 !important;
+}
+
+.theme-swatch {
+  border-color: rgba(232, 228, 216, 0.2);
+}
+
+.theme-swatch.is-active {
+  box-shadow: 0 0 0 2px var(--reader-bg), 0 0 0 3.5px var(--reader-accent);
+}
+
+.find-backdrop {
+  background: rgba(4, 7, 5, 0.42);
+}
+
+.find-drawer {
+  background: var(--reader-surface);
+  color: var(--reader-ink);
+  border-left-color: var(--reader-line);
+  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.45);
+}
+
+.find-input {
+  background: var(--reader-panel);
+}
+
+.selection-tip {
+  border-color: var(--line-strong);
+  background: #1b221d;
+  color: var(--ink);
+  box-shadow: 0 9px 24px rgba(0, 0, 0, 0.45);
+}
+
+.selection-tip button {
+  color: var(--ink-soft);
+}
+
+.selection-tip button:hover {
+  background: rgba(232, 228, 216, 0.08);
+  color: var(--ink);
+}
+
+.context-menu {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.52), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.context-quote {
+  background: #1c221e;
+  color: var(--ink-soft);
+}
+
+.context-section {
+  border-top-color: var(--line);
+}
+
+.context-section > button:hover {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--ink);
+}
+
+.context-section > button svg {
+  color: var(--muted);
+}
+
+.context-accent {
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent);
+}
+
+.web-search-row button {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.04);
+  color: var(--ink-soft);
+}
+
+.web-search-row button:hover {
+  border-color: rgba(201, 164, 107, 0.34);
+  background: rgba(201, 164, 107, 0.08);
+  color: var(--accent);
+}
+
+.context-foot {
+  border-top-color: var(--line);
+  color: var(--muted);
+}
+
+.pdf-text-warning {
+  border-color: rgba(201, 164, 107, 0.36);
+  background: rgba(24, 21, 15, 0.95);
+  color: #e6d3ae;
+}
+
+.pdf-stage {
+  background:
+    radial-gradient(900px 500px at 50% 0%, rgba(255, 255, 255, 0.025), transparent 70%),
+    #242a26;
+}
+
+.pdf-page-loading {
+  color: var(--muted);
+  background:
+    linear-gradient(100deg, transparent 25%, rgba(232, 228, 216, 0.06) 45%, transparent 65%),
+    #1b201d;
+}
+
+.pdf-controls {
+  border-color: rgba(232, 228, 216, 0.12);
+  background: rgba(15, 20, 17, 0.94);
+  color: var(--ink);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4);
+}
+
+.pdf-error .btn {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  background: rgba(232, 228, 216, 0.06);
+}
+
+/* 阅读器侧栏 dock / 笔记 / 问答 / 导图 */
+.reader-dock {
+  border-left-color: var(--reader-line);
+  background: var(--reader-panel);
+  color: var(--reader-ink);
+}
+
+.reader-dock-tabs button.is-active {
+  background: var(--reader-surface);
+  color: var(--reader-ink);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.35);
+}
+
+.qa-panel-error {
+  border-color: rgba(224, 122, 112, 0.24);
+  background: rgba(224, 122, 112, 0.08);
+  color: #e9a59d;
+}
+
+.qa-panel-error button {
+  color: #e9a59d;
+}
+
+.qa-mode-warning {
+  border-color: rgba(201, 164, 107, 0.22);
+  background: rgba(201, 164, 107, 0.08);
+  color: #d6b47c;
+}
+
+.qa-user-bubble {
+  background: #223a30;
+  color: #f1e9da;
+}
+
+.qa-web-toggle i {
+  background: rgba(232, 228, 216, 0.18);
+}
+
+.map-revise-head em {
+  color: var(--accent);
+}
+
+/* 翻页阅读模式底部控制条 */
+.paged-reader-bar {
+  border-top-color: var(--reader-line);
+  background: color-mix(in srgb, var(--reader-bg) 94%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   8. 问答
+   -------------------------------------------------------------------------- */
+
+.ask-page {
+  background:
+    radial-gradient(900px 500px at 100% 0%, rgba(143, 179, 163, 0.045), transparent 60%),
+    var(--bg);
+}
+
+.ask-side {
+  border-right-color: var(--line);
+  background: rgba(23, 28, 25, 0.48);
+}
+
+.new-chat-btn {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.04);
+  color: var(--ink);
+}
+
+.new-chat-btn:hover {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.thread-item:hover {
+  background: rgba(232, 228, 216, 0.04);
+}
+
+.thread-item.is-active {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.07);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.thread-glyph {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--muted);
+}
+
+.thread-item.is-active .thread-glyph {
+  background: rgba(201, 164, 107, 0.11);
+  color: var(--accent);
+}
+
+.chat-head {
+  border-bottom-color: var(--line);
+  background: rgba(11, 14, 13, 0.72);
+}
+
+.context-trigger {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.04);
+  color: var(--ink-soft);
+}
+
+.context-trigger:hover,
+.context-trigger.is-open {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+}
+
+.context-pop {
+  background: var(--paper-2);
+}
+
+.context-all:hover,
+.context-all.is-active {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.05);
+}
+
+.context-book:hover,
+.context-book.is-active {
+  background: rgba(232, 228, 216, 0.05);
+}
+
+.context-all-icon {
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent);
+}
+
+.ask-web-toggle,
+.ask-mode-toggle {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.04);
+  color: var(--muted);
+}
+
+.ask-mode-toggle button {
+  color: var(--muted);
+}
+
+.ask-mode-toggle button.is-active {
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+.ask-web-toggle.is-active {
+  border-color: rgba(201, 164, 107, 0.34);
+  background: rgba(201, 164, 107, 0.09);
+  color: var(--accent);
+}
+
+.ask-mode-banner {
+  border-color: rgba(201, 164, 107, 0.22);
+  background: rgba(201, 164, 107, 0.07);
+  color: #d6b47c;
+}
+
+.ask-mode-banner .text-link {
+  color: var(--accent);
+}
+
+.ask-empty-mark {
+  border-color: var(--line-strong);
+  color: var(--accent);
+}
+
+.ask-empty-mark i {
+  box-shadow: 0 0 0 4px var(--bg);
+}
+
+.suggestion-grid button {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.suggestion-grid button:hover {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+}
+
+.ask-chip {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.035);
+  color: var(--ink-soft);
+}
+
+.user-message {
+  background: #223a30;
+  color: #f1e9da;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.26);
+}
+
+.assistant-avatar {
+  background: #1e342b;
+  color: #ecdfc8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.26);
+}
+
+.answer-mode {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--muted);
+}
+
+.answer-mode.is-ai {
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent);
+}
+
+.markdown {
+  color: var(--ink-soft);
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  color: var(--ink);
+}
+
+.markdown blockquote {
+  border-left-color: var(--reader-accent, var(--accent));
+  background: rgba(201, 164, 107, 0.055);
+  color: var(--muted);
+}
+
+.source-card {
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.source-card:hover {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+}
+
+.source-index {
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent);
+}
+
+.composer-wrap {
+  background: linear-gradient(0deg, var(--bg) 45%, transparent);
+}
+
+.composer {
+  border-color: var(--line);
+  background: rgba(23, 28, 25, 0.9);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
+}
+
+.composer:focus-within {
+  border-color: rgba(201, 164, 107, 0.32);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.4);
+}
+
+.composer textarea {
+  color: var(--ink);
+}
+
+.composer textarea::placeholder {
+  color: var(--muted);
+}
+
+.composer-bar {
+  border-top-color: var(--line);
+}
+
+.composer-context {
+  background: rgba(232, 228, 216, 0.05);
+  color: var(--muted);
+}
+
+.composer-context:hover {
+  background: rgba(232, 228, 216, 0.09);
+  color: var(--ink-soft);
+}
+
+.composer-hint,
+.composer-foot {
+  color: var(--muted);
+}
+
+.send-btn {
+  background: #1e342b;
+  color: #ecdfc8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.26);
+}
+
+.send-btn:hover:not(:disabled) {
+  background: #274639;
+}
+
+/* --------------------------------------------------------------------------
+   9. 导图列表 / 编辑器
+   -------------------------------------------------------------------------- */
+
+.maps-stats > span {
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.ai-status-pill {
+  color: var(--accent) !important;
+  border-color: rgba(201, 164, 107, 0.24) !important;
+  background: rgba(201, 164, 107, 0.07) !important;
+}
+
+.ai-status-pill.is-ready {
+  color: var(--sage) !important;
+  border-color: rgba(143, 179, 163, 0.24) !important;
+  background: rgba(143, 179, 163, 0.07) !important;
+}
+
+.map-card {
+  border-color: var(--line-strong);
+  background: rgba(23, 28, 25, 0.72);
+  box-shadow: var(--shadow-card);
+}
+
+.map-card:hover {
+  box-shadow: 0 20px 38px -14px rgba(0, 0, 0, 0.5);
+}
+
+.map-thumb {
+  background: #0e1210 !important;
+  border-bottom-color: var(--line);
+}
+
+.map-thumb svg > rect:first-of-type {
+  fill: #0e1210 !important;
+}
+
+.map-thumb svg text {
+  fill: var(--ink-soft) !important;
+}
+
+.dock-map-preview svg > rect:not([rx]) {
+  fill: #0e1210 !important;
+}
+
+.dock-map-preview svg rect[rx="12"] {
+  fill: #171c19 !important;
+}
+
+.dock-map-preview svg text {
+  fill: var(--ink-soft) !important;
+}
+
+.map-card-meta {
+  color: var(--muted);
+}
+
+.map-card-meta span + span::before {
+  color: var(--muted);
+}
+
+.map-card-delete {
+  border-color: var(--line);
+  background: rgba(14, 18, 16, 0.86);
+  color: var(--muted);
+}
+
+.map-card-delete:hover {
+  background: rgba(224, 122, 112, 0.12);
+  color: var(--danger);
+}
+
+.map-add-card {
+  border-color: rgba(232, 228, 216, 0.16);
+  background: rgba(232, 228, 216, 0.02);
+  color: var(--muted);
+}
+
+.map-add-card:hover {
+  border-color: rgba(201, 164, 107, 0.4);
+  background: rgba(201, 164, 107, 0.05);
+  color: var(--accent);
+}
+
+.maps-empty {
+  background: rgba(232, 228, 216, 0.02);
+}
+
+.maps-empty-art {
+  background: rgba(201, 164, 107, 0.06);
+}
+
+.create-tabs,
+.mode-card {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.create-tabs button.is-active {
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.3);
+}
+
+.mode-card:hover:not(:disabled) {
+  border-color: rgba(201, 164, 107, 0.28);
+  background: var(--paper-2);
+}
+
+.mode-card.is-active {
+  border-color: rgba(201, 164, 107, 0.48);
+  background: rgba(201, 164, 107, 0.07);
+  box-shadow: 0 0 0 3px rgba(201, 164, 107, 0.05);
+}
+
+.mode-icon {
+  background: rgba(143, 179, 163, 0.1);
+  color: var(--sage);
+}
+
+.mode-card strong em {
+  background: rgba(232, 228, 216, 0.07);
+  color: var(--muted);
+}
+
+.mm-page {
+  --map-paper: #0e1210 !important;
+  background: #0e1210 !important;
+  color: var(--ink);
+}
+
+.mm-topbar {
+  border-bottom-color: var(--line);
+  background: color-mix(in srgb, #0e1210 90%, transparent);
+}
+
+.mm-title-input {
+  color: var(--ink);
+}
+
+.mm-title-input:hover {
+  border-color: var(--line);
+}
+
+.mm-title-input:focus {
+  border-color: var(--line-strong);
+  background: rgba(232, 228, 216, 0.05);
+}
+
+.mm-subtitle,
+.mm-book-link,
+.mm-book-source,
+.save-state {
+  color: var(--muted);
+}
+
+.mm-subtitle i {
+  background: var(--muted);
+}
+
+.mm-top-divider {
+  background: var(--line);
+}
+
+.mm-export-menu {
+  background: var(--paper-2);
+}
+
+.mm-viewport {
+  background-color: #0e1210;
+  background-image: radial-gradient(rgba(232, 228, 216, 0.09) 1px, transparent 1px);
+}
+
+.mm-canvas-bg {
+  background:
+    radial-gradient(700px 450px at 50% 0%, rgba(143, 179, 163, 0.045), transparent 72%),
+    radial-gradient(500px 500px at 100% 100%, rgba(201, 164, 107, 0.04), transparent 70%);
+}
+
+.mm-node:not(.depth-0) {
+  --node-fill: #171c19 !important;
+  --node-ink: #e8e4da !important;
+}
+
+.mm-node.depth-0 {
+  --node-root: #1e342b !important;
+  box-shadow: 0 12px 26px -10px rgba(0, 0, 0, 0.58);
+}
+
+.mm-node:hover {
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.3),
+    0 10px 22px -9px rgba(0, 0, 0, 0.5);
+}
+
+.mm-node-add {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+  color: var(--accent);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mm-node-add:hover {
+  background: #20261f;
+}
+
+.mm-hint {
+  border-color: var(--line);
+  background: rgba(14, 18, 16, 0.72);
+  color: var(--muted);
+}
+
+.mm-toolbar {
+  border-color: var(--line-strong);
+  background: rgba(23, 28, 25, 0.92);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.45);
+}
+
+.mm-toolbar > button {
+  color: var(--ink-soft);
+}
+
+.mm-toolbar > button:hover:not(:disabled) {
+  background: rgba(232, 228, 216, 0.07);
+  color: var(--ink);
+}
+
+.mm-toolbar-divider {
+  background: var(--line);
+}
+
+.mm-zoom-value {
+  color: var(--muted);
+}
+
+.mm-theme-swatch {
+  border-color: var(--paper-2);
+}
+
+.mm-theme-swatch.is-active {
+  box-shadow: 0 0 0 1px var(--swatch), 0 0 0 3px rgba(232, 228, 216, 0.6);
+}
+
+.mm-inspector {
+  border-color: var(--line-strong);
+  background: rgba(23, 28, 25, 0.94);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+}
+
+.mm-selected-text {
+  background: rgba(232, 228, 216, 0.05);
+  color: var(--ink-soft);
+}
+
+.mm-note-label {
+  color: var(--muted);
+}
+
+.mm-note {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.04);
+  color: var(--ink);
+}
+
+.mm-inspector-move,
+.mm-inspector-foot {
+  border-top-color: var(--line);
+  color: var(--muted);
+}
+
+.mm-inspector-move span {
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   10. 设置
+   -------------------------------------------------------------------------- */
+
+.settings-ai-pill {
+  color: var(--accent);
+  border-color: rgba(201, 164, 107, 0.24);
+  background: rgba(201, 164, 107, 0.07);
+}
+
+.settings-ai-pill > span {
+  background: var(--accent);
+}
+
+.settings-ai-pill.is-ready {
+  color: var(--sage);
+  border-color: rgba(143, 179, 163, 0.24);
+  background: rgba(143, 179, 163, 0.07);
+}
+
+.settings-ai-pill.is-ready > span {
+  background: var(--sage);
+  box-shadow: 0 0 0 3px rgba(143, 179, 163, 0.1);
+}
+
+.settings-nav {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.03);
+}
+
+.settings-nav button {
+  color: var(--muted);
+}
+
+.settings-nav button:hover {
+  background: rgba(232, 228, 216, 0.05);
+  color: var(--ink);
+}
+
+.settings-card {
+  border-color: var(--line-strong);
+  background:
+    radial-gradient(500px 250px at 100% 0%, rgba(201, 164, 107, 0.035), transparent 70%),
+    rgba(23, 28, 25, 0.72);
+  box-shadow: var(--shadow-card);
+}
+
+.provider-tabs {
+  border-color: var(--line);
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.provider-tab {
+  color: var(--muted);
+}
+
+.provider-tab.is-active {
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.3);
+}
+
+.provider-tab em {
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent);
+}
+
+.key-eye:hover {
+  background: rgba(232, 228, 216, 0.06);
+  color: var(--ink);
+}
+
+.test-success {
+  border-color: rgba(143, 179, 163, 0.22);
+  background: rgba(143, 179, 163, 0.06);
+  color: var(--sage);
+}
+
+.settings-path-hint,
+.about-meta {
+  color: var(--muted);
+}
+
+.reading-preview {
+  background: var(--bg-deep) !important;
+  color: var(--ink) !important;
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+
+.privacy-badge {
+  border-color: rgba(143, 179, 163, 0.2);
+  background: rgba(143, 179, 163, 0.06);
+  color: var(--sage);
+}
+
+.data-stats > div {
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.data-icon {
+  background: rgba(143, 179, 163, 0.08);
+  color: var(--sage);
+}
+
+.privacy-grid > div {
+  background: rgba(232, 228, 216, 0.025);
+}
+
+.privacy-grid code,
+.settings-card code {
+  background: rgba(232, 228, 216, 0.07);
+}
+
+.about-mark {
+  background: #1e342b;
+  color: #f0e7d5;
+}
+
+/* 全局显示控制（字号 / 护眼） */
+.display-root {
+  --display-glass: rgba(16, 21, 18, 0.92);
+  --display-panel-glass: rgba(18, 23, 20, 0.96);
+  --display-border: var(--line);
+  --display-panel-border: var(--line-strong);
+  --display-text: var(--ink);
+  --display-muted: var(--muted);
+  --display-eye-on: var(--sage);
+  --display-focus: rgba(201, 164, 107, 0.72);
+  --display-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+  --display-panel-shadow: 0 26px 70px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   11. 概念树列表 / 编辑器（concepts.css 覆盖）
+   -------------------------------------------------------------------------- */
+
+.concepts-page .concepts-stats > span {
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.concepts-page .concept-card {
+  border-color: var(--line-strong);
+  background: rgba(23, 28, 25, 0.72);
+  box-shadow: var(--shadow-card);
+}
+
+.concepts-page .concept-card:hover {
+  box-shadow: 0 20px 38px -14px rgba(0, 0, 0, 0.5);
+}
+
+.concepts-page .concept-card-mark {
+  background: rgba(143, 179, 163, 0.1);
+  color: var(--sage);
+}
+
+.concepts-page .concept-card-sources,
+.concepts-page .concept-card-meta,
+.concepts-page .concept-card-time {
+  color: var(--muted);
+}
+
+.concepts-page .concept-card-delete {
+  border-color: var(--line);
+  background: rgba(23, 28, 25, 0.94);
+  color: var(--muted);
+}
+
+.concepts-page .concept-card-delete:hover {
+  background: rgba(224, 122, 112, 0.12);
+  color: var(--danger);
+}
+
+.concepts-page .concept-add-card {
+  border-color: rgba(232, 228, 216, 0.16);
+  background: rgba(232, 228, 216, 0.02);
+  color: var(--muted);
+}
+
+.concepts-page .concept-add-card:hover {
+  border-color: rgba(201, 164, 107, 0.4);
+  background: rgba(201, 164, 107, 0.05);
+  color: var(--accent);
+}
+
+.concepts-page .concepts-empty {
+  background: rgba(232, 228, 216, 0.02);
+}
+
+.concepts-page .concept-empty-art {
+  background: rgba(201, 164, 107, 0.06);
+}
+
+.concepts-page .concept-create .mode-card.is-active:hover:not(:disabled) {
+  background: rgba(201, 164, 107, 0.08);
+}
+
+.concepts-page .concept-book-option {
+  background: rgba(232, 228, 216, 0.035);
+}
+
+.concepts-page .concept-book-option:hover {
+  background: var(--paper-2);
+}
+
+.concepts-page .concept-book-option.is-checked {
+  border-color: rgba(201, 164, 107, 0.44);
+  background: rgba(201, 164, 107, 0.07);
+}
+
+.concept-editor {
+  background:
+    radial-gradient(900px 520px at 90% 0%, rgba(143, 179, 163, 0.045), transparent 68%),
+    radial-gradient(700px 500px at 0% 100%, rgba(201, 164, 107, 0.035), transparent 72%),
+    var(--bg);
+  color: var(--ink);
+}
+
+.concept-editor .concept-topbar {
+  border-bottom-color: var(--line);
+  background: rgba(11, 14, 13, 0.9);
+}
+
+.concept-editor .concept-title-input {
+  color: var(--ink);
+}
+
+.concept-editor .concept-title-input:hover {
+  border-color: var(--line);
+}
+
+.concept-editor .concept-title-input:focus {
+  border-color: var(--line-strong);
+  background: rgba(232, 228, 216, 0.05);
+}
+
+.concept-editor .concept-subtitle,
+.concept-editor .concept-tree-foot,
+.concept-editor .concept-path-btn,
+.concept-editor .concept-quotes-head em,
+.concept-editor .concept-quote-meta {
+  color: var(--muted);
+}
+
+.concept-editor .concept-subtitle i {
+  background: var(--muted);
+}
+
+.concept-editor .concept-top-divider {
+  background: var(--line);
+}
+
+.concept-editor .concept-tree-panel {
+  border-right-color: var(--line);
+  background: rgba(23, 28, 25, 0.5);
+}
+
+.concept-editor .concept-tree-row:hover {
+  background: rgba(232, 228, 216, 0.05);
+}
+
+.concept-editor .concept-tree-row.is-selected {
+  border-color: rgba(201, 164, 107, 0.26);
+  background: rgba(201, 164, 107, 0.09);
+}
+
+.concept-editor .concept-tree-actions button:hover:not(:disabled),
+.concept-editor .concept-path-btn:hover,
+.concept-editor .concept-tree-toggle:hover {
+  background: rgba(232, 228, 216, 0.07);
+}
+
+.concept-editor .concept-tree-quote-count {
+  background: rgba(201, 164, 107, 0.1);
+  color: var(--accent);
+}
+
+.concept-editor .concept-detail .field input:disabled {
+  background: rgba(232, 228, 216, 0.04);
+  color: var(--muted);
+}
+
+.concept-editor .concept-quotes {
+  border-top-color: var(--line);
+}
+
+.concept-editor .concept-quotes-head > span {
+  background: rgba(143, 179, 163, 0.1);
+  color: var(--sage);
+}
+
+.concept-editor .concept-quote {
+  border-color: var(--line);
+  background: rgba(23, 28, 25, 0.7);
+}
+
+.concept-editor .concept-quote::before {
+  background: rgba(201, 164, 107, 0.32);
+}
+
+.concept-editor .concept-quote-text {
+  color: var(--ink-soft);
+}
+
+.concept-editor .concept-quote-book {
+  color: var(--sage);
+}
+
+.concept-editor .concept-quotes-empty {
+  color: var(--muted);
+}
+
+.concept-editor .concept-quotes-empty svg,
+.concept-editor .concept-quotes-empty small {
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   12. 护眼模式：只覆盖颜色，不动布局
+   -------------------------------------------------------------------------- */
+
+html[data-eye="on"] {
+  color-scheme: dark;
+  --bg: #17130f;
+  --bg-deep: #120f0b;
+  --paper: #1c1712;
+  --paper-2: #221b14;
+  --ink: #f0e4d0;
+  --ink-soft: #d4c4ab;
+  --muted: #a3947e;
+  --line: rgba(240, 228, 208, 0.12);
+  --line-strong: rgba(240, 228, 208, 0.2);
+  --accent: #d8b27a;
+  --accent-deep: #e6c58f;
+  --sage: #a7b7a4;
+  --gold: #d8b27a;
+  --danger: #e08a7c;
+  --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.32);
+  background: var(--bg-deep);
+}
+
+html[data-eye="on"] body {
+  background:
+    radial-gradient(1100px 700px at 8% -12%, rgba(216, 178, 122, 0.07), transparent 62%),
+    radial-gradient(900px 620px at 102% 108%, rgba(167, 183, 164, 0.04), transparent 60%),
+    var(--bg);
+  color: var(--ink);
+}
+
+html[data-eye="on"] body::before {
+  opacity: 0.045;
+}
+
+html[data-eye="on"] .sidebar {
+  background:
+    radial-gradient(240px 300px at 50% 8%, rgba(216, 178, 122, 0.06), transparent 70%),
+    linear-gradient(180deg, #1b1711 0%, #120f0b 100%);
+  color: rgba(240, 228, 208, 0.62);
+}
+
+html[data-eye="on"] .reader-page {
+  --reader-bg: #17130f;
+  --reader-surface: #1d1812;
+  --reader-panel: #1a1510;
+  --reader-ink: #f0e4d0;
+  --reader-muted: #a3947e;
+  --reader-line: rgba(240, 228, 208, 0.12);
+  --reader-accent: #d8b27a;
+  --reader-quote: #211a13;
+  --reader-soft: rgba(240, 228, 208, 0.06);
+  background: var(--reader-bg);
+  color: var(--reader-ink);
+}
+
+html[data-eye="on"] .modal,
+html[data-eye="on"] .desk-card,
+html[data-eye="on"] .settings-card,
+html[data-eye="on"] .map-card,
+html[data-eye="on"] .concept-home,
+html[data-eye="on"] .concepts-page .concept-card {
+  background: var(--paper);
+}
+
+html[data-eye="on"] .search-box,
+html[data-eye="on"] .composer,
+html[data-eye="on"] .field input,
+html[data-eye="on"] .field textarea,
+html[data-eye="on"] .field select {
+  background: var(--paper-2);
+}
+
+html[data-eye="on"] .mm-page {
+  --map-paper: #17130f !important;
+  background: #17130f !important;
+}
+
+html[data-eye="on"] .mm-viewport {
+  background-color: #17130f;
+  background-image: radial-gradient(rgba(240, 228, 208, 0.08) 1px, transparent 1px);
+}
+
+html[data-eye="on"] .mm-node:not(.depth-0) {
+  --node-fill: #1d1812 !important;
+  --node-ink: #f0e4d0 !important;
+}
+
+html[data-eye="on"] .map-thumb,
+html[data-eye="on"] .map-thumb svg > rect:first-of-type {
+  background: #17130f !important;
+  fill: #17130f !important;
+}
+
+html[data-eye="on"] .reading-preview {
+  background: #17130f !important;
+  color: #f0e4d0 !important;
+}
+
+html[data-eye="on"] .selection-tip,
+html[data-eye="on"] .context-menu,
+html[data-eye="on"] .book-menu,
+html[data-eye="on"] .context-pop,
+html[data-eye="on"] .mm-toolbar,
+html[data-eye="on"] .mm-inspector {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+html[data-eye="on"] .display-root {
+  --display-glass: rgba(27, 22, 17, 0.94);
+  --display-panel-glass: rgba(28, 23, 18, 0.97);
+  --display-border: rgba(240, 228, 208, 0.14);
+  --display-panel-border: rgba(240, 228, 208, 0.2);
+  --display-eye-on: #d8b27a;
+  --display-focus: rgba(216, 178, 122, 0.72);
+}

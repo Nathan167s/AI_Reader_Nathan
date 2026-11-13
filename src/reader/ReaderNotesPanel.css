@@ -1,0 +1,824 @@
+/* Reading notes dock panel — 仅作用于 .notes-panel 内部，复用 reader 主题变量 */
+
+.notes-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  color: var(--reader-ink);
+  font-family: var(--sans);
+  font-size: 10px;
+}
+
+/* --- 顶部 --- */
+
+.notes-panel-top {
+  flex: none;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--reader-line);
+}
+
+.notes-panel-head-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.notes-panel-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.notes-panel-title .eyebrow {
+  color: var(--reader-accent);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+}
+
+.notes-panel-title h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.notes-panel-title h3 span {
+  flex: none;
+  min-width: 18px;
+  padding: 0 6px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--reader-accent) 10%, transparent);
+  color: var(--reader-accent);
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+}
+
+.notes-panel-header-toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  margin-top: -1px;
+  border: 1px solid var(--reader-line);
+  border-radius: 8px;
+  background: var(--reader-surface);
+  color: var(--reader-muted);
+  transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+}
+
+.notes-panel-header-toggle:hover {
+  border-color: color-mix(in srgb, var(--reader-accent) 46%, transparent);
+  background: color-mix(in srgb, var(--reader-accent) 7%, var(--reader-surface));
+  color: var(--reader-accent);
+}
+
+.notes-panel-header-toggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--reader-accent) 48%, transparent);
+  outline-offset: 2px;
+}
+
+/* 折叠后只保留一条窄栏：标题 + 数量 + 展开按钮 */
+.notes-panel-top.is-collapsed {
+  padding: 8px 12px;
+}
+
+.notes-panel-top.is-collapsed .notes-panel-head-row {
+  align-items: center;
+}
+
+.notes-panel-top.is-collapsed .notes-panel-title .eyebrow,
+.notes-panel-top.is-collapsed .notes-panel-sub {
+  display: none;
+}
+
+.notes-panel-top.is-collapsed .notes-panel-title h3 {
+  margin-top: 0;
+  font-size: 13.5px;
+}
+
+.notes-panel-top.is-collapsed .notes-panel-title h3 span {
+  font-size: 8.5px;
+  line-height: 15px;
+}
+
+.notes-panel-top.is-collapsed .notes-panel-header-toggle {
+  width: 28px;
+  height: 28px;
+  margin-top: 0;
+}
+
+.notes-panel-sub {
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--reader-muted);
+  font-size: 8px;
+}
+
+.notes-panel-tools {
+  display: flex;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.notes-panel-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  height: 27px;
+  padding: 0 8px;
+  border: 1px solid var(--reader-line);
+  border-radius: 7px;
+  background: var(--reader-surface);
+  color: var(--reader-ink);
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.16s ease, color 0.16s ease;
+}
+
+.notes-panel-tool svg {
+  flex: none;
+}
+
+.notes-panel-tool.is-ai svg {
+  color: var(--reader-accent);
+}
+
+.notes-panel-tool:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--reader-accent) 42%, transparent);
+  color: var(--reader-accent);
+}
+
+.notes-panel-tool.is-disabled:hover {
+  border-color: var(--reader-line);
+  color: var(--reader-ink);
+}
+
+.notes-panel-tool:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.notes-panel-tool.is-disabled {
+  opacity: 0.45;
+}
+
+.notes-panel-aihint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--reader-accent) 24%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--reader-accent) 6%, transparent);
+  color: color-mix(in srgb, var(--reader-accent) 72%, var(--reader-ink));
+  font-size: 8.5px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.notes-panel-aihint svg {
+  flex: none;
+}
+
+.notes-panel-aihint span {
+  flex: 1;
+  min-width: 0;
+}
+
+.notes-panel-aihint:hover {
+  border-color: color-mix(in srgb, var(--reader-accent) 42%, transparent);
+}
+
+/* --- 滚动区 --- */
+
+.notes-panel-scroll {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 10px 14px 16px;
+}
+
+.notes-panel-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 7px 8px;
+  border: 1px solid color-mix(in srgb, #b3533d 28%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, #b3533d 7%, transparent);
+  color: color-mix(in srgb, #a24a35 72%, var(--reader-ink));
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.notes-panel-error > span {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.notes-panel-error > button {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 10px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.notes-panel-error-close {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-top: -1px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  opacity: 0.7;
+}
+
+.notes-panel-error-close:hover {
+  background: color-mix(in srgb, #b3533d 14%, transparent);
+  opacity: 1;
+}
+
+/* --- 快速新建 --- */
+
+.notes-panel-composer {
+  border: 1px solid var(--reader-line);
+  border-radius: 10px;
+  background: var(--reader-surface);
+  overflow: hidden;
+}
+
+.notes-panel-composer-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 33px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: var(--reader-ink);
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 550;
+  text-align: left;
+}
+
+.notes-panel-composer-toggle > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.notes-panel-composer-toggle > span svg {
+  flex: none;
+  color: var(--reader-accent);
+}
+
+.notes-panel-chevron {
+  flex: none;
+  color: var(--reader-muted);
+  transition: transform 0.18s ease;
+}
+
+.notes-panel-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.notes-panel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 0 10px 9px;
+}
+
+.notes-panel-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.notes-panel-field > span {
+  color: var(--reader-muted);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+
+.notes-panel-field textarea,
+.notes-panel-cat {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--reader-line);
+  border-radius: 7px;
+  background: var(--reader-panel);
+  color: var(--reader-ink);
+  font-family: inherit;
+  font-size: 12.5px;
+  line-height: 1.55;
+  outline: none;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.notes-panel-field textarea {
+  min-height: 40px;
+  max-height: 120px;
+  padding: 6px 8px;
+  resize: vertical;
+}
+
+.notes-panel-field textarea::placeholder,
+.notes-panel-cat::placeholder {
+  color: color-mix(in srgb, var(--reader-muted) 82%, transparent);
+}
+
+.notes-panel-cat {
+  height: 29px;
+  padding: 0 8px;
+  font-size: 12.5px;
+}
+
+.notes-panel-field textarea:focus,
+.notes-panel-cat:focus {
+  border-color: color-mix(in srgb, var(--reader-accent) 48%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--reader-accent) 8%, transparent);
+}
+
+.notes-panel-form-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.notes-panel-form-row .notes-panel-cat {
+  flex: 1;
+}
+
+.notes-panel-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: none;
+  height: 29px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--reader-accent);
+  color: #fdf7ee;
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.notes-panel-save:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--reader-accent) 88%, #000);
+}
+
+.notes-panel-save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.notes-panel-source {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  color: var(--reader-muted);
+  font-size: 9.5px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.notes-panel-source svg {
+  flex: none;
+}
+
+/* --- AI 概览 --- */
+
+.notes-panel-analysis {
+  margin-top: 10px;
+  padding: 9px 10px;
+  border: 1px solid color-mix(in srgb, var(--reader-accent) 20%, var(--reader-line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--reader-accent) 5%, var(--reader-surface));
+}
+
+.notes-panel-analysis-head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--reader-accent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.notes-panel-analysis p {
+  margin-top: 4px;
+  color: color-mix(in srgb, var(--reader-ink) 78%, var(--reader-muted));
+  font-size: 10.5px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* --- 加载 / 空状态 --- */
+
+.notes-panel-loading,
+.notes-panel-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 210px;
+  padding: 18px 4px;
+  color: var(--reader-muted);
+  font-size: 10.5px;
+  text-align: center;
+}
+
+.notes-panel-empty-orb {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--reader-line);
+  border-radius: 50%;
+  background: var(--reader-surface);
+  color: var(--reader-accent);
+}
+
+.notes-panel-empty h3 {
+  margin-top: 3px;
+  color: var(--reader-ink);
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.notes-panel-empty p {
+  max-width: 250px;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.notes-panel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  height: 27px;
+  padding: 0 11px;
+  border: 1px solid var(--reader-line);
+  border-radius: 7px;
+  background: var(--reader-surface);
+  color: var(--reader-ink);
+  font-size: 10.5px;
+}
+
+.notes-panel-cta:hover {
+  border-color: color-mix(in srgb, var(--reader-accent) 42%, transparent);
+  color: var(--reader-accent);
+}
+
+/* --- 分类分组 --- */
+
+.notes-panel-group {
+  margin-top: 14px;
+  min-width: 0;
+}
+
+.notes-panel-group-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding-bottom: 5px;
+}
+
+.notes-panel-group-name {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--reader-ink);
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 550;
+}
+
+.notes-panel-group-count {
+  flex: none;
+  min-width: 16px;
+  padding: 1px 5px;
+  border-radius: 20px;
+  background: var(--reader-soft);
+  color: var(--reader-muted);
+  font-size: 9.5px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.notes-panel-group-summary {
+  margin-bottom: 6px;
+  color: var(--reader-muted);
+  font-size: 9.5px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+/* --- 单条笔记 --- */
+
+.notes-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.notes-panel-note {
+  min-width: 0;
+  padding: 9px 10px 7px;
+  border: 1px solid var(--reader-line);
+  border-radius: 10px;
+  background: var(--reader-surface);
+}
+
+.notes-panel-note.is-editing {
+  border-color: color-mix(in srgb, var(--reader-accent) 38%, transparent);
+}
+
+.notes-panel-note-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+
+.notes-panel-chip {
+  max-width: 62%;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--reader-accent) 9%, transparent);
+  color: color-mix(in srgb, var(--reader-accent) 82%, var(--reader-ink));
+  font-size: 9.5px;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notes-panel-note-time {
+  flex: none;
+  color: var(--reader-muted);
+  font-size: 9.5px;
+}
+
+.notes-panel-note-title {
+  margin-top: 6px;
+  color: var(--reader-ink);
+  font-family: var(--serif);
+  font-size: 12.5px;
+  font-weight: 550;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.notes-panel-note-quote {
+  margin: 5px 0 0;
+  padding-left: 8px;
+  border-left: 2px solid color-mix(in srgb, var(--reader-accent) 38%, transparent);
+  color: color-mix(in srgb, var(--reader-ink) 80%, var(--reader-muted));
+  font-family: var(--serif);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notes-panel-note-body {
+  margin-top: 5px;
+  color: color-mix(in srgb, var(--reader-ink) 90%, var(--reader-muted));
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.notes-panel-note-ai {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 5px 7px;
+  border-radius: 6px;
+  background: var(--reader-soft);
+  color: var(--reader-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.notes-panel-note-ai svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--reader-accent);
+}
+
+.notes-panel-note-ai span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.notes-panel-note-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px dashed color-mix(in srgb, var(--reader-line) 82%, transparent);
+}
+
+.notes-panel-note-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  color: var(--reader-muted);
+  font-size: 9.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notes-panel-note-source svg {
+  flex: none;
+}
+
+.notes-panel-note-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+.notes-panel-note-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 24px;
+  padding: 0 5px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--reader-muted);
+  font-family: var(--sans);
+  font-size: 9.5px;
+  line-height: 1;
+}
+
+.notes-panel-note-actions button:hover:not(:disabled) {
+  background: var(--reader-soft);
+  color: var(--reader-ink);
+}
+
+.notes-panel-note-actions button.is-danger:hover:not(:disabled) {
+  color: var(--reader-accent);
+}
+
+.notes-panel-note-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- 行内编辑 --- */
+
+.notes-panel-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 7px;
+  min-width: 0;
+}
+
+.notes-panel-edit .notes-panel-cat {
+  width: 100%;
+}
+
+.notes-panel-edit-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.notes-panel-edit-actions .notes-panel-save,
+.notes-panel-cancel {
+  flex: 1;
+  height: 27px;
+}
+
+.notes-panel-cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid var(--reader-line);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--reader-muted);
+  font-family: var(--sans);
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+.notes-panel-cancel:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--reader-accent) 35%, transparent);
+  color: var(--reader-ink);
+}
+
+.notes-panel-cancel:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* --- 窄屏 / 手机（390px 侧栏） --- */
+
+@media (max-width: 620px) {
+  .notes-panel-top {
+    padding: 10px 12px 9px;
+  }
+
+  .notes-panel-scroll {
+    padding: 9px 12px 14px;
+  }
+
+  .notes-panel-tools {
+    gap: 4px;
+  }
+
+  .notes-panel-tool {
+    padding: 0 6px;
+    font-size: 8.5px;
+  }
+
+  .notes-panel-field textarea {
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 360px) {
+  .notes-panel-tool {
+    font-size: 8px;
+    gap: 3px;
+  }
+
+  .notes-panel-tool svg {
+    display: none;
+  }
+}

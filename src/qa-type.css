@@ -1,0 +1,292 @@
+/* Larger, more legible Q&A typography for both the reader dock and /ask. */
+
+/* Reader side panel */
+.reader-ask-panel .qa-top-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 2px 1px 7px;
+  border: 0;
+  background: transparent;
+  color: var(--reader-muted);
+  text-align: left;
+}
+
+.reader-ask-panel .qa-top-toggle > span {
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+
+.reader-ask-panel .qa-top-toggle small {
+  margin-left: auto;
+  color: var(--reader-accent);
+  font-size: 8.5px;
+  white-space: nowrap;
+}
+
+.reader-ask-panel .qa-top-toggle-icon {
+  flex: none;
+  transform: rotate(-90deg);
+  transition: transform 0.16s ease;
+}
+
+.reader-ask-panel .qa-top-toggle-icon.is-open {
+  transform: rotate(0);
+}
+
+.reader-ask-panel .qa-panel-top.is-collapsed {
+  padding-bottom: 4px;
+}
+
+.reader-ask-panel .qa-panel-top.is-collapsed .qa-panel-top-body {
+  display: none;
+}
+
+.reader-ask-panel .qa-mode-btn > span {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.reader-ask-panel .qa-mode-btn small {
+  font-size: 9.5px;
+}
+
+.reader-ask-panel .qa-scope-label,
+.reader-ask-panel .qa-new-chat,
+.reader-ask-panel .qa-mode-hint,
+.reader-ask-panel .qa-mode-warning {
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.reader-ask-panel .qa-web-toggle > span {
+  font-size: 10px;
+}
+
+.reader-ask-panel .qa-web-toggle small {
+  font-size: 9px;
+}
+
+.reader-ask-panel .qa-panel-empty h3 {
+  font-size: 20px;
+}
+
+.reader-ask-panel .qa-panel-empty > p:not(.eyebrow) {
+  font-size: 11.5px;
+  line-height: 1.65;
+}
+
+.reader-ask-panel .qa-suggestions button {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.reader-ask-panel .qa-user-bubble {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.reader-ask-panel .qa-provider-tag,
+.reader-ask-panel .qa-copy {
+  font-size: 9px;
+}
+
+.reader-ask-panel .qa-markdown {
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.reader-ask-panel .qa-markdown p,
+.reader-ask-panel .qa-markdown li {
+  line-height: 1.72;
+}
+
+.reader-ask-panel .qa-sources > p {
+  font-size: 9.5px;
+}
+
+.reader-ask-panel .qa-sources > button > span:first-child {
+  font-size: 8.5px;
+}
+
+.reader-ask-panel .qa-sources strong {
+  font-size: 10.5px;
+}
+
+.reader-ask-panel .qa-sources small {
+  font-size: 9px;
+}
+
+.reader-ask-panel .qa-panel-error,
+.reader-ask-panel .qa-panel-error button {
+  font-size: 10px;
+}
+
+.reader-ask-panel .qa-composer-box textarea {
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.reader-ask-panel .qa-composer-bar > span:first-child,
+.reader-ask-panel .qa-composer-hint {
+  font-size: 9px;
+}
+
+.reader-ask-panel .qa-disclaimer {
+  font-size: 8.5px;
+}
+
+.reader-ask-panel .qa-pdf-warning {
+  font-size: 9.5px;
+}
+
+.reader-ask-panel .web-sources-label {
+  font-size: 10px;
+}
+
+.reader-ask-panel .web-source-card strong {
+  font-size: 10.5px;
+}
+
+.reader-ask-panel .web-source-card small {
+  font-size: 8.5px;
+}
+
+.reader-ask-panel .web-source-card > .web-source-main > span {
+  font-size: 9.5px;
+  line-height: 1.55;
+}
+
+.reader-dock .dock-pin-btn {
+  font-size: 9.5px;
+}
+
+.reader-dock-tabs button {
+  font-size: 12px;
+}
+
+/* Standalone /ask page */
+.ask-page .thread-copy strong {
+  font-size: 13px;
+}
+
+.ask-page .thread-copy small {
+  font-size: 10px;
+}
+
+.ask-page .new-chat-btn {
+  font-size: 13px;
+}
+
+.ask-page .chat-head-title h1 {
+  font-size: 22px;
+}
+
+.ask-page .context-trigger {
+  font-size: 12px;
+}
+
+.ask-page .ask-mode-toggle button,
+.ask-page .ask-web-toggle {
+  font-size: 11px;
+}
+
+.ask-page .ask-empty-sub {
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.ask-page .suggestion-grid button > span:nth-child(2) {
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.ask-page .suggestion-num {
+  font-size: 10px;
+}
+
+.ask-page .user-message p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.ask-page .assistant-meta {
+  font-size: 10.5px;
+}
+
+.ask-page .answer-mode,
+.ask-page .copy-answer {
+  font-size: 9.5px;
+}
+
+.ask-page .markdown {
+  font-size: 14.5px;
+  line-height: 1.78;
+}
+
+.ask-page .markdown p,
+.ask-page .markdown li {
+  line-height: 1.78;
+}
+
+.ask-page .sources-label {
+  font-size: 10px;
+}
+
+.ask-page .source-main strong {
+  font-size: 11px;
+}
+
+.ask-page .source-main small,
+.ask-page .source-main > span {
+  font-size: 9.5px;
+}
+
+.ask-page .source-index {
+  font-size: 8.5px;
+}
+
+.ask-page .composer textarea {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.ask-page .composer-context {
+  font-size: 10px;
+}
+
+.ask-page .composer-hint,
+.ask-page .composer-foot {
+  font-size: 9px;
+}
+
+.ask-page .ask-mode-banner {
+  font-size: 11.5px;
+}
+
+.ask-page .context-book strong {
+  font-size: 12px;
+}
+
+.ask-page .context-book small {
+  font-size: 9.5px;
+}
+
+/* Shared web source cards inside /ask */
+.ask-page .web-sources-label {
+  font-size: 10px;
+}
+
+.ask-page .web-source-card strong {
+  font-size: 11px;
+}
+
+.ask-page .web-source-card small {
+  font-size: 9px;
+}
+
+.ask-page .web-source-card > .web-source-main > span {
+  font-size: 10px;
+  line-height: 1.55;
+}

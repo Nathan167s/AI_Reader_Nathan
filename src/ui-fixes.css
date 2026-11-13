@@ -1,0 +1,109 @@
+/* PageNest UI integration fixes — loaded after theme/display layers. */
+
+/* The dark theme leaves conversation titles inheriting the old dim button ink. */
+.thread-copy strong {
+  color: var(--ink-soft);
+}
+
+.thread-item.is-active .thread-copy strong {
+  color: var(--ink);
+}
+
+.thread-copy small,
+.thread-item .thread-time {
+  color: var(--muted);
+}
+
+/* Keep the floating display dock away from functional corners on large screens. */
+/* Dedicated right rail: the controls own this strip instead of overlaying content. */
+@media (min-width: 981px) {
+  :root {
+    --display-rail: 52px;
+  }
+
+  .app-shell {
+    padding-right: var(--display-rail);
+  }
+
+  .display-root::before {
+    content: "";
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: calc(var(--display-rail) * var(--ui-scale, 1));
+    border-left: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .display-dock {
+    top: 10px;
+    right: 8px;
+    bottom: auto;
+    width: 36px;
+    min-height: 0;
+    padding: 6px 0;
+    flex-direction: column;
+    gap: 6px;
+    border-radius: 12px;
+  }
+
+  .display-eye {
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    padding: 6px 1px;
+    gap: 1px;
+    border-radius: 8px;
+  }
+
+  .display-eye-label {
+    font-size: 8px;
+  }
+
+  .display-eye-state {
+    display: block;
+    font-size: 7px;
+    line-height: 1;
+  }
+
+  .display-switch,
+  .display-dock-divider {
+    display: none;
+  }
+
+  .display-aa {
+    width: 100%;
+    min-width: 0;
+    height: 28px;
+    padding: 0;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .display-aa-text {
+    display: inline;
+    font-size: 7px;
+    line-height: 1;
+  }
+
+  .display-panel {
+    top: 10px;
+    right: calc(var(--display-rail) + 8px);
+    bottom: auto;
+  }
+}
+
+/* On phones the Q&A composer owns the bottom edge; keep display controls above it. */
+@media (max-width: 860px) {
+  body:has(.ask-page) .display-dock,
+  body:has(.reader-dock:not(.is-hidden)) .display-dock {
+    bottom: calc(var(--nav-h, 66px) * var(--ui-scale, 1) + 112px);
+    right: 10px;
+  }
+}
+
+/* Slightly stronger focus ring in the dark surface. */
+:where(button, a, input, textarea, select):focus-visible {
+  outline-color: color-mix(in srgb, var(--accent) 72%, transparent);
+}
